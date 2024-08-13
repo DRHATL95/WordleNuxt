@@ -6,12 +6,7 @@
     <GameBoard />
     <Keyboard />
     <Toast />
-    <Modal 
-      :visible="isModalVisible" 
-      :title="modalTitle" 
-      :content="modalContent" 
-      @close="closeModal" 
-    />
+    <Modal :visible="isModalVisible" :title="modalTitle" :content="modalContent" @close="closeModal" />
   </div>
 </template>
 
@@ -33,7 +28,7 @@ const isModalVisible = ref(false);
 const modalTitle = ref('');
 const modalContent = ref('');
 
-const openModal = (title:string, content:string) => {
+const openModal = (title: string, content: string) => {
   modalTitle.value = title;
   modalContent.value = content;
   isModalVisible.value = true;
@@ -45,7 +40,7 @@ const closeModal = () => {
 
 onMounted(async () => {
   const wordData = await $fetch('/api/wordOfTheDay');
-      
+
   if (wordData.word) {
     store.setWordOfTheDay(wordData.word);
   } else {
@@ -65,9 +60,64 @@ watch(gameEnded, (newVal) => {
 .game-area {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align content to the top */
+  justify-content: flex-start;
   align-items: center;
-  min-height: 100vh; /* Ensure it takes full height */
-  padding-top: 20px; /* Add a small padding at the top */
+  min-height: 70vh;
+  margin-top: 10vh;
+}
+
+/* Mobile styles */
+@media (max-width: 600px) {
+  .game-area {
+    margin-top: 20vh;
+    /* Increased margin-top to move content down */
+  }
+
+  .tile {
+    width: 35px;
+    /* Smaller key size on mobile */
+    height: 35px;
+    font-size: 14px;
+  }
+
+  .key {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+
+  .enter-key,
+  .backspace-key {
+    width: calc(5 * 35px);
+    /* Reduced size on mobile */
+    font-size: 12px;
+    /* Smaller font size for mobile */
+  }
+}
+
+/* Web styles */
+@media (min-width: 601px) {
+  .game-area {
+    margin-top: 10vh;
+  }
+
+  .tile {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  .key {
+    width: 50px;
+    height: 50px;
+    font-size: 16px;
+  }
+
+  .enter-key,
+  .backspace-key {
+    width: calc(8 * 50px);
+    /* Adjusted size */
+    font-size: 16px;
+  }
 }
 </style>

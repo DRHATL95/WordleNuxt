@@ -5,7 +5,7 @@
         {{ key }}
       </div>
     </div>
-    <div class="flex justify-center">
+    <div class="flex justify-center space-x-2">
       <div class="key enter-key" @click="handleEnter">Enter</div>
       <div class="key backspace-key" @click="handleBackspace">Backspace</div>
     </div>
@@ -27,7 +27,7 @@ const handleKeyPress = (key: string) => {
 
 const handleBackspace = () => {
   if (store.currentGuess.length > 0 && !store.gameEnded) {
-    store.currentGuess = store.currentGuess.slice(0, -1); // Remove the last character
+    store.currentGuess = store.currentGuess.slice(0, -1);
   }
 };
 
@@ -40,7 +40,7 @@ const handleEnter = async () => {
       });
 
       store.addGuess(store.currentGuess);
-      store.currentGuess = ''; // Reset the current guess after submission
+      store.currentGuess = '';
 
       if (data.success) {
         store.gameEnded = true;
@@ -80,30 +80,54 @@ onBeforeUnmount(() => {
 
 <style scoped>
 #keyboard {
-  margin-top: 5px; /* Reduced spacing between board and keyboard */
+  margin-top: 5px;
 }
 
+/* General Key Styles */
 .key {
   padding: 10px;
   margin: 2px;
   background-color: #ffffff;
   border-radius: 5px;
-  border: 1px solid #ccc; /* Added border around keys */
+  border: 1px solid #ccc;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
   color: #333;
 }
 
-.key:hover {
-  background-color: #e0e0e0;
+/* Adjust key sizes for different screen sizes */
+@media (min-width: 601px) {
+  .key {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  .enter-key,
+  .backspace-key {
+    width: calc(8 * 50px);
+    /* Slightly reduced size */
+    font-size: 16px;
+    /* Slightly reduced font size */
+  }
 }
 
-.enter-key, .backspace-key {
-  width: calc(10 * 42px);
-  text-align: center;
+@media (max-width: 600px) {
+  .key {
+    width: 35px;
+    /* Smaller key size on mobile */
+    height: 35px;
+    font-size: 14px;
+  }
+
+  .enter-key,
+  .backspace-key {
+    width: calc(5 * 35px);
+    /* Reduced size on mobile */
+    font-size: 12px;
+    /* Smaller font size for mobile */
+  }
 }
 </style>
